@@ -46,17 +46,37 @@ function initPrompt() {
 }
 
 function artistSearch() {
+  inquirer
+    .prompt([
+      {
+        name: "artist",
+        message: "What artist do you want to look for?",
+      },
+    ])
+    .then((answer) => {
+      connection.query(
+        'SELECT position, song, year FROM top5000 WHERE ?',
+        { artist: answer.artist },
+        (err, result) => {
+          if (err) throw err;
+          console.table(result);
+          initPrompt();
+        }
+      );
+    });
   console.log("searching for artist");
-  initPrompt();
 }
+
 function multiSearch() {
   console.log("searching");
   initPrompt();
 }
+
 function rangeSearch() {
   console.log("searching");
   initPrompt();
 }
+
 function songSearch() {
   console.log("searching");
   initPrompt();
